@@ -1,0 +1,6 @@
+1|1544596156836|Andy Dwyer|(508) 594-8634|4487 Kovar Rd, MA 01608|AndyDwyer@gmail.com|7:30am - 2:00pm|+665|Retail
+2|1544596252502|CVS Pharmacy|(925) 828-3823|7201 Regional Street, CA 94568|CustomerServiceCvs@gmail.com|8:00am - 10:00pm|ww.cvs.com
+0|1544596362989|Leslie Knope|(603) 248-6604|3257 Milford Street, NH 03820|LeslieKnope@gmail.com|Lesly|www.facebook.com/Lesie.456|(603) 248-6604
+2|1544596503620|Pizza Hut|(925) 803-7755|9130 Alcosta Blvd, CA 94568|PizzaHut@gmail.com|7:00am - 11:00pm|www.pizzahut.com
+0|1544596442848|Ron Swanson|(505) 329-0433|2629 Cooks Rd, NM 87102|RonSwanson@gmail.com|Ronny|www.facebook.com/Swanson|(505) 695-6413
+1|1544596827476|Tom Haverford|(463) 928-7612|6231 Washington St, CA 94539|tomHaverford@gmail.com|8:00am - 6:00pm|+223|Sales
