@@ -1,6 +1,5 @@
-package contacts.backend;
+package mycontacts.dao;
 
-import contacts.model.*;
 import java.util.ArrayList;
 import java.io.File;
 
@@ -11,11 +10,13 @@ import java.io.PrintWriter;
 import java.time.Instant;
 import java.util.Scanner;
 
-public class ContactManager implements ContactManagerInterface {
+import mycontacts.model.*;
+
+public class ContactManagerFile implements ContactsDAOInterface {
 
 	ArrayList<Contact> contactsList;
 
-	public ContactManager() throws FileNotFoundException {
+	public ContactManagerFile() throws FileNotFoundException {
 		contactsList = new ArrayList<Contact>();
 		
 		File contactsFile = new File("contact_data.txt");
@@ -94,6 +95,11 @@ public class ContactManager implements ContactManagerInterface {
 		}
 	}
 
+	@Override
+	public Contact getContact(long id) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+	
 	private void parseContactEntry(String contactDataEntry) {
 		String[] contactTokens = contactDataEntry.split("\\|");
 		if (contactTokens.length < 2 ) // ignoring records with no data
@@ -155,5 +161,4 @@ public class ContactManager implements ContactManagerInterface {
 		tempBusinessContact.setId(Long.parseLong(anArray[1]));
 		return tempBusinessContact;
 	}
-	
 }

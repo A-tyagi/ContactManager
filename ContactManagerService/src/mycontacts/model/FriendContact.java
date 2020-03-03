@@ -1,12 +1,14 @@
-package contacts.model;
+package mycontacts.model;
 
 
 public class FriendContact extends Contact {
-
-
 	private String nickname;
 	private String socialMedia;
 	private String emergencyContact;
+	
+	public FriendContact() {
+		
+	}
 	
 	public FriendContact(String name, String phoneNumber, String address, String email, String nickname, String socialMedia, String emergencyContact) {
 		super(name,phoneNumber,address,email);

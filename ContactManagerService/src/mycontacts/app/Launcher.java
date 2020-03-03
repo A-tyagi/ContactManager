@@ -1,8 +1,10 @@
+package mycontacts.app;
+
 import java.awt.*;
 
-import contacts.backend.ContactManager;
-import contacts.backend.ContactManagerInterface;
-import contacts.gui.GuiManager;
+import mycontacts.dao.ContactManagerRESTClient;
+import mycontacts.dao.ContactsDAOInterface;
+import mycontacts.app.gui.GuiManager;
 
 public class Launcher {
 	/**
@@ -12,7 +14,7 @@ public class Launcher {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ContactManagerInterface contactManager = new ContactManager();
+					ContactsDAOInterface contactManager = new ContactManagerRESTClient();
 					new GuiManager(contactManager);
 				} catch (Exception e) {
 					e.printStackTrace();

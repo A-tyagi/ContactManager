@@ -1,4 +1,4 @@
-package contacts.model;
+package mycontacts.model;
 
 
 public class WorkContact extends Contact {
@@ -6,6 +6,10 @@ public class WorkContact extends Contact {
 	private String workingHours;
 	private String extensionNumber;
 
+	public WorkContact() {
+		
+	}
+	
 	public WorkContact(String name, String phoneNumber, String address, String email, String workingHours, String extensionNumber, String department) {
 		super(name,phoneNumber,address,email);
 		this.workingHours = workingHours;

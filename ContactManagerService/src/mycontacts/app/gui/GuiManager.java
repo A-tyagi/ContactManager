@@ -1,4 +1,4 @@
-package contacts.gui;
+package mycontacts.app.gui;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -8,7 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -26,11 +26,11 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import contacts.backend.ContactManagerInterface;
-import contacts.model.BusinessContact;
-import contacts.model.Contact;
-import contacts.model.FriendContact;
-import contacts.model.WorkContact;
+import mycontacts.dao.ContactsDAOInterface;
+import mycontacts.model.BusinessContact;
+import mycontacts.model.Contact;
+import mycontacts.model.FriendContact;
+import mycontacts.model.WorkContact;
 
 public class GuiManager {
 
@@ -39,7 +39,7 @@ public class GuiManager {
 	private JTable friendTable;
 	private JTable workTable;
 	private JTable businessTable;
-	private ContactManagerInterface contactManager;
+	private ContactsDAOInterface contactManager;
 	DefaultTableModel allTableModel;
 	DefaultTableModel friendsTableModel;
 	DefaultTableModel workTableModel; 
@@ -49,8 +49,9 @@ public class GuiManager {
 	
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public GuiManager(ContactManagerInterface contactManager) {
+	public GuiManager(ContactsDAOInterface contactManager) throws Exception {
 		this.contactManager = contactManager;
 		initialize(); 
 		frmContactManager.setVisible(true);
@@ -58,8 +59,9 @@ public class GuiManager {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws Exception 
 	 */
-	private void initialize() {
+	private void initialize() throws Exception {
 		
 		frmContactManager = new JFrame();
 		frmContactManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -199,8 +201,8 @@ public class GuiManager {
 	}
 	
 	
-	private void populateTableRows() {
-		ArrayList<Contact> contcts = contactManager.getContactsList();
+	private void populateTableRows() throws Exception {
+		List<Contact> contcts = contactManager.getContactsList();
 		for (Contact aContact:contcts) {
 			if (aContact instanceof FriendContact) {
 				friendsTableModel.addRow(createFriendContactRow((FriendContact)aContact));
@@ -218,27 +220,37 @@ public class GuiManager {
 	}
 	
 	private void repopulateShowAllTableRows() {
-		ArrayList<Contact> contcts = contactManager.getContactsList();
-		allTableModel.setRowCount(0);
-		for (Contact aContact:contcts) {
-			allTableModel.addRow(createAllContactRow(aContact));
+		List<Contact> contcts;
+		try {
+			contcts = contactManager.getContactsList();
+			allTableModel.setRowCount(0);
+			for (Contact aContact:contcts) {
+				allTableModel.addRow(createAllContactRow(aContact));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error, failed to read contacts!");
 		}
 	}
 	
-	public void addFriendContact(FriendContact tempFriend) {
-		contactManager.addContact(tempFriend);
+	public void addFriendContact(FriendContact tempFriend) throws Exception {
+		long contactId = contactManager.addContact(tempFriend);
+		tempFriend.setId(contactId);
 		friendsTableModel.addRow(createFriendContactRow(tempFriend));
 		allTableModel.addRow(createAllContactRow(tempFriend));
 	}
 	
-	public void addWorkContact(WorkContact tempWork) {
-		contactManager.addContact(tempWork);
+	public void addWorkContact(WorkContact tempWork) throws Exception {
+		long contactId = contactManager.addContact(tempWork);
+		tempWork.setId(contactId);
 		workTableModel.addRow(createWorkContactRow(tempWork));
 		allTableModel.addRow(createAllContactRow(tempWork));
 	}
 	
-	public void addBusinessContact(BusinessContact tempBusiness) {
-		contactManager.addContact(tempBusiness);
+	public void addBusinessContact(BusinessContact tempBusiness) throws Exception {
+		long contactId = contactManager.addContact(tempBusiness);
+		tempBusiness.setId(contactId);
 		businessTableModel.addRow(createBusinessContactRow(tempBusiness));
 		allTableModel.addRow(createAllContactRow(tempBusiness));
 	}
@@ -362,7 +374,12 @@ public class GuiManager {
 			System.out.println("id of the row deleted: " + idToDelete);
 			
 			if (selectedRow != -1) {
-				contactManager.deleteContact(Long.parseLong(idToDelete));
+				try {
+					contactManager.deleteContact(Long.parseLong(idToDelete));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error, failed to delete contact!");
+				}
 				
 				if (currentTabIndex == 0) {
 					allTableModel.removeRow(selectedRow);
@@ -377,7 +394,11 @@ public class GuiManager {
 					businessTableModel.removeRow(selectedRow);
 				}
 				
-				repopulateShowAllTableRows();
+				try {
+					repopulateShowAllTableRows();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -388,6 +409,10 @@ public class GuiManager {
 				contactManager.saveContactList();
 				JOptionPane.showMessageDialog(null, "Saved contact succesfully!");
 			} catch (IOException e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error, failed to save contact!");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Error, failed to save contact!");
 			}
@@ -410,7 +435,12 @@ public class GuiManager {
 						friendsTableModel.getValueAt(row, 5).toString(),  // Social
 						friendsTableModel.getValueAt(row, 6).toString()); // Emergency
 				updatedContact.setId(Long.parseLong(friendsTableModel.getValueAt(row, 7).toString()));
-				contactManager.updateContact(updatedContact);
+				try {
+					contactManager.updateContact(updatedContact);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error, failed to update contact!");
+				}
 				repopulateShowAllTableRows();
 			}
 		}
@@ -432,7 +462,12 @@ public class GuiManager {
 						workTableModel.getValueAt(row, 6).toString(),  // Extension
 						workTableModel.getValueAt(row, 4).toString()); // Department
 				updatedContact.setId(Long.parseLong(workTableModel.getValueAt(row, 7).toString()));
-				contactManager.updateContact(updatedContact);
+				try {
+					contactManager.updateContact(updatedContact);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error, failed to update contact!");
+				}
 				repopulateShowAllTableRows();
 			}
 		}
@@ -454,7 +489,12 @@ public class GuiManager {
 						businessTableModel.getValueAt(row, 5).toString()); // Website
 				
 				updatedContact.setId(Long.parseLong(businessTableModel.getValueAt(row, 6).toString()));
-				contactManager.updateContact(updatedContact);
+				try {
+					contactManager.updateContact(updatedContact);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error, failed to update contact!");
+				}
 				repopulateShowAllTableRows();
 			}
 		}

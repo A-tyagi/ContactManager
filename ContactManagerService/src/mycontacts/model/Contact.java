@@ -1,12 +1,28 @@
-package contacts.model;
+package mycontacts.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
+@JsonTypeInfo(
+	  use = JsonTypeInfo.Id.NAME, 
+	  include = JsonTypeInfo.As.PROPERTY, 
+	  property = "type")
+	@JsonSubTypes({ 
+	  @Type(value = FriendContact.class, name = "Friend"), 
+	  @Type(value = WorkContact.class, name = "Work"),
+	  @Type(value = BusinessContact.class, name = "Business")
+	})
 public abstract class Contact {
 	private String name;
 	private String phoneNumber;
 	private String address;
 	private String email;
 	private long id;
+	
+	public Contact() {
+		
+	}
 	
 	public Contact(String name, String phoneNumber, String address, String email) {
 		this.name = name;

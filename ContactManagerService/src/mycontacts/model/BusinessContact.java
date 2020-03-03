@@ -1,4 +1,4 @@
-package contacts.model;
+package mycontacts.model;
 
 
 public class BusinessContact extends Contact {
@@ -6,30 +6,27 @@ public class BusinessContact extends Contact {
 	private String businessHours;
 	private String website;
 	
+	public BusinessContact() {
+		
+	}
+	
 	public BusinessContact(String name, String phoneNumber, String address, String email, String businessHours, String website) {
 		super(name,phoneNumber,address,email);
 		this.businessHours = businessHours;
 		this.website = website;
-
 	}
 
 	public String getBusinessHours() {
 		return businessHours;
 	}
 
-
-
 	public void setBusinessHours(String businessHours) {
 		this.businessHours = businessHours;
 	}
 
-
-
 	public String getWebsite() {
 		return website;
 	}
-
-
 
 	public void setWebsite(String website) {
 		this.website = website;
@@ -44,6 +41,4 @@ public class BusinessContact extends Contact {
 				.append(getWebsite());
 		return recordBuilder.toString();
 	}
-
-
 }

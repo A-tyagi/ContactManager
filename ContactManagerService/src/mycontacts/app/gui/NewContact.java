@@ -1,4 +1,4 @@
-package contacts.gui;
+package mycontacts.app.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-import contacts.model.BusinessContact;
-import contacts.model.FriendContact;
-import contacts.model.WorkContact;
+import mycontacts.model.BusinessContact;
+import mycontacts.model.FriendContact;
+import mycontacts.model.WorkContact;
 
 import java.awt.Component;
 import javax.swing.Box;
@@ -565,15 +565,21 @@ public class NewContact extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			FriendContact newFriendContact = new FriendContact(friendFirstNameTextField.getText(),friendPhoneNumberTextField.getText(),friendAddressTextField.getText(),friendEmailTextField.getText(),
 					friendNicknameTextField.getText(),friendSocialMediaTextField.getText(), friendEmergencyContactTextField.getText());
-			guiManager.addFriendContact(newFriendContact);
-			JOptionPane.showMessageDialog(null, "Friend contact added.");
-			friendFirstNameTextField.setText(null);
-			friendPhoneNumberTextField.setText(null);
-			friendAddressTextField.setText(null);
-			friendEmailTextField.setText(null);
-			friendSocialMediaTextField.setText(null);
-			friendNicknameTextField.setText(null);
-			friendEmergencyContactTextField.setText(null);
+			try {
+				guiManager.addFriendContact(newFriendContact);
+				JOptionPane.showMessageDialog(null, "Friend contact added.");
+				friendFirstNameTextField.setText(null);
+				friendPhoneNumberTextField.setText(null);
+				friendAddressTextField.setText(null);
+				friendEmailTextField.setText(null);
+				friendSocialMediaTextField.setText(null);
+				friendNicknameTextField.setText(null);
+				friendEmergencyContactTextField.setText(null);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Failed to add the Friend contact!");
+			}
+
 			
 		}
 	}
@@ -582,15 +588,21 @@ public class NewContact extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			WorkContact newWorkContact = new WorkContact(workFirstNameTextField.getText(),workPhoneNumberTextField.getText(),workAddressTextField.getText(),workEmailTextField.getText(),
 					workDepartmentTextField.getText(), workWorkingHoursTextField.getText(),workExtensionTextField.getText());
-			guiManager.addWorkContact(newWorkContact);
-			JOptionPane.showMessageDialog(null, "Work contact added.");
-			workFirstNameTextField.setText(null);
-			workPhoneNumberTextField.setText(null);
-			workAddressTextField.setText(null);
-			workEmailTextField.setText(null);
-			workDepartmentTextField.setText(null);
-			workWorkingHoursTextField.setText(null);
-			workExtensionTextField.setText(null);
+			try {
+				guiManager.addWorkContact(newWorkContact);
+				JOptionPane.showMessageDialog(null, "Work contact added.");
+				workFirstNameTextField.setText(null);
+				workPhoneNumberTextField.setText(null);
+				workAddressTextField.setText(null);
+				workEmailTextField.setText(null);
+				workDepartmentTextField.setText(null);
+				workWorkingHoursTextField.setText(null);
+				workExtensionTextField.setText(null);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Failed to add the Work contact!");
+			}
+
 		}
 	}
 	
@@ -598,15 +610,19 @@ public class NewContact extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			BusinessContact newBusinessContact = new BusinessContact(businessFirstNameTextField.getText(),businessPhoneNumberTextField.getText(),businessAddressTextField.getText(),businessEmailTextField.getText(),
 					businessBusinessHoursTextField.getText(),businessWebsiteTextField.getText());
-			guiManager.addBusinessContact(newBusinessContact);
-			JOptionPane.showMessageDialog(null, "Business contact added.");
-			businessFirstNameTextField.setText(null);
-			businessPhoneNumberTextField.setText(null);
-			businessAddressTextField.setText(null);
-			businessEmailTextField.setText(null);
-			businessBusinessHoursTextField.setText(null);
-			businessWebsiteTextField.setText(null);
-			
+			try {
+				guiManager.addBusinessContact(newBusinessContact);
+				JOptionPane.showMessageDialog(null, "Business contact added.");
+				businessFirstNameTextField.setText(null);
+				businessPhoneNumberTextField.setText(null);
+				businessAddressTextField.setText(null);
+				businessEmailTextField.setText(null);
+				businessBusinessHoursTextField.setText(null);
+				businessWebsiteTextField.setText(null);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Failed to add the Business contact!");
+			}
 		}
 	}
 	
