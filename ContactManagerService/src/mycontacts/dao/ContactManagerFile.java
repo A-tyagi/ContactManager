@@ -14,12 +14,12 @@ import mycontacts.model.*;
 
 public class ContactManagerFile implements ContactsDAOInterface {
 
-	ArrayList<Contact> contactsList;
-
+	private ArrayList<Contact> contactsList;
+	private File contactsFile;
 	public ContactManagerFile() throws FileNotFoundException {
 		contactsList = new ArrayList<Contact>();
 		
-		File contactsFile = new File("contact_data.txt");
+		contactsFile = new File("contact_data.txt");
 		Scanner filescanner = new Scanner(contactsFile);
 		try {
 			while(filescanner.hasNextLine()){
@@ -58,7 +58,6 @@ public class ContactManagerFile implements ContactsDAOInterface {
 	 */
 	@Override
 	public void saveContactList() throws IOException {
-		File contactsFile = new File("contact_data.txt");
 		FileWriter fileWriter = new FileWriter(contactsFile, false);
 	    PrintWriter printWriter = new PrintWriter(fileWriter);
 	    String contactRecordString;

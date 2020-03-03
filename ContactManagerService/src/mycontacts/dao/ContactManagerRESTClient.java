@@ -2,7 +2,6 @@ package mycontacts.dao;
 
 import java.util.List;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -14,8 +13,7 @@ import mycontacts.model.Contact;
 
 public class ContactManagerRESTClient implements ContactsDAOInterface {
 
-	Client client;
-	WebTarget webTarget;
+	private WebTarget webTarget;
 
 	public ContactManagerRESTClient() {
 		webTarget = ClientBuilder.newClient().target("http://localhost:8080/ContactsManager/rest");

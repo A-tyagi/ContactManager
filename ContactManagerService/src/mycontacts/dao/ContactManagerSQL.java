@@ -43,14 +43,15 @@ public class ContactManagerSQL implements ContactsDAOInterface {
 	private final static String readAllSQL = "SELECT * FROM mycontacts;";
 	private final static String deleteStmtSQL = "DELETE FROM mycontacts WHERE id = ?;";
 	private final static String updateStmtSQL = "UPDATE mycontacts SET name = ?, phone = ?, address = ?, email = ?, nick = ?, social = ?, emergency = ?, dept = ?, hours = ?, ext = ? WHERE id = ?;";
-	Connection connection;
+
+	private Connection connection;
 
 	public ContactManagerSQL () throws Exception {
 		createDBConnection();
     	createTable();
     	TestData.createSampleData(this, 20);
 	}
-	
+
     private void createDBConnection() throws SQLException {
         try {
 			Class.forName("org.h2.Driver");
@@ -59,7 +60,7 @@ public class ContactManagerSQL implements ContactsDAOInterface {
 			e.printStackTrace();
 		}
     }
-    
+
     public void createTable() throws SQLException {
         try (Statement statement = connection.createStatement();) {
             System.out.println(createTableSQL);
@@ -72,7 +73,7 @@ public class ContactManagerSQL implements ContactsDAOInterface {
         	throw e;
         }
     }
-    
+
 	public List<Contact> getContactsList() throws SQLException {
 		List<Contact> contacts = new ArrayList<Contact>();
 		
