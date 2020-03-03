@@ -18,10 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import mycontacts.dao.ContactsDAOInterface;
-//import mycontacts.model.BusinessContact;
 import mycontacts.model.Contact;
-//import mycontacts.model.FriendContact;
-//import mycontacts.model.WorkContact;
 
 @Path("/contacts")
 public class MyContactResource {
