@@ -26,12 +26,14 @@ import mycontacts.model.Contact;
 @Path("/contacts")
 public class MyContactResource {
 	@Context ServletContext context;
-
+	ContactsDAOInterface contactsDAO;
+	
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(Contact newContact, @Context HttpServletRequest request) throws Exception {
-		ContactsDAOInterface dbManager = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
-		long newProductId = dbManager.addContact(newContact);
+		contactsDAO = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
+		long newProductId = contactsDAO.addContact(newContact);
 		URI uri = new URI(request.getRequestURL().toString() + "/" + newProductId);
 		return Response.created(uri).entity(Long.valueOf(newProductId)).build();
 	}
@@ -39,16 +41,16 @@ public class MyContactResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Contact> list() throws Exception {
-		ContactsDAOInterface dbManager = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
-		return dbManager.getContactsList();
+		contactsDAO = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
+		return contactsDAO.getContactsList();
 	}
 	
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") long id) throws Exception {
-		ContactsDAOInterface dbManager = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
-		Contact contact = dbManager.getContact(id);
+		contactsDAO = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
+		Contact contact = contactsDAO.getContact(id);
 		if (contact != null) {
 			return Response.ok(contact, MediaType.APPLICATION_JSON).build();
 		} else {
@@ -60,10 +62,10 @@ public class MyContactResource {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") long id, Contact contact) {
-		ContactsDAOInterface dbManager = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
+		contactsDAO = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
 		contact.setId(id);
 		try {
-			dbManager.updateContact(contact); 
+			contactsDAO.updateContact(contact); 
 			return Response.ok().build();
 		} catch (Exception e) {
 			return Response.notModified().build();
@@ -73,13 +75,12 @@ public class MyContactResource {
 	@DELETE
 	@Path("{id}")
 	public Response delete(@PathParam("id") long id) {
-		ContactsDAOInterface dbManager = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
+		contactsDAO = (ContactsDAOInterface) context.getAttribute("ContactsDAO");
 		try  {
-			dbManager.deleteContact(id);
+			contactsDAO.deleteContact(id);
 			return Response.ok().build();	
 		} catch (Exception e) {
 			return Response.notModified().build();
 		}
 	}
-
 }
