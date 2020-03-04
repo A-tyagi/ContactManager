@@ -1,0 +1,47 @@
+title Initialize ContactManager REST Service
+
+participant Me
+participant Tomcat
+participant JAX-RS Servlet
+participant ContextListener
+participant ContactManagerSQL
+participant H2\nEmbedded
+
+Me -> Tomcat: deploy ContactManager.war
+Tomcat -> +JAX-RS Servlet: init()
+JAX-RS Servlet -> +ContextListener: contextInitialized
+ContextListener -> +ContactManagerSQL: new ContactManagerSQL()
+ContactManagerSQL -> H2\nEmbedded: initialize JDBC Connection
+ContactManagerSQL -> H2\nEmbedded: create table
+ContactManagerSQL -> -ContextListener:
+ContextListener -> -JAX-RS Servlet:
+JAX-RS Servlet -> MyContactResource: initialize REST API endpoints
+JAX-RS Servlet -> -Tomcat:
+Tomcat -> Me: Service ready to serve REST calls
+deactivate ContactManagerSQL
+--------------------------------------------------------------------------------
+
+title GUI Initialization and Load Contacts List
+
+participant Me
+participant Launcher
+participant GUIManager
+participant ContactManagerRestClient
+
+Me -> +Launcher: launch
+Launcher -> +ContactManagerRestClient: new ContactManagerRestClient()
+ContactManagerRestClient -> -Launcher:
+
+Launcher -> +GUIManager: new GuiManager(contactManagerRestClient)
+GUIManager -> +ContactManagerRestClient: getContactsList()
+ContactManagerRestClient -->> +JAX-RS Servlet: HTTP GET http://<server>/rest/contacts
+JAX-RS Servlet -> +MyContactResource: list()
+MyContactResource -> +ContactManagerSQL: getContactList()
+ContactManagerSQL -> +H2: SQL select
+H2 -> -ContactManagerSQL:
+ContactManagerSQL -> -MyContactResource:
+MyContactResource -> -JAX-RS Servlet:
+JAX-RS Servlet -->> -ContactManagerRestClient:
+ContactManagerRestClient -> -GUIManager:
+GUIManager -> -Launcher:
+Launcher -> -Me: GUI ready with contacts list loaded
